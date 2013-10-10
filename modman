@@ -1,0 +1,6 @@
+
+app/etc/modules/VinaiKopp_ProductCategories.xml app/etc/modules/VinaiKopp_ProductCategories.xml
+app/code/community/VinaiKopp/ProductCategories app/code/community/VinaiKopp/ProductCategories
+app/design/frontend/base/default/layout/vinaikopp/productcategories.xml app/design/frontend/base/default/layout/vinaikopp/productcategories.xml
+app/design/frontend/base/default/template/vinaikopp/productcategories app/design/frontend/base/default/template/vinaikopp/productcategories
+app/locale/de_DE/VinaiKopp_ProductCategories.csv app/locale/de_DE/VinaiKopp_ProductCategories.csv

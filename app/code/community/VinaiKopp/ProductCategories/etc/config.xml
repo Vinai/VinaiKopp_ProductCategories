@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <blocks>
+            <vinaikopp_productCategories>
+                <class>VinaiKopp_ProductCategories_Block</class>
+            </vinaikopp_productCategories>
+        </blocks>
+        <helpers>
+            <vinaikopp_productCategories>
+                <class>VinaiKopp_ProductCategories_Helper</class>
+            </vinaikopp_productCategories>
+        </helpers>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <vinaikopp_productCategories>
+                    <file>vinaikopp/productcategories.xml</file>
+                </vinaikopp_productCategories>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <VinaiKopp_ProductCategories>
+                    <files>
+                        <default>VinaiKopp_ProductCategories.csv</default>
+                    </files>
+                </VinaiKopp_ProductCategories>
+            </modules>
+        </translate>
+    </frontend>
+</config>

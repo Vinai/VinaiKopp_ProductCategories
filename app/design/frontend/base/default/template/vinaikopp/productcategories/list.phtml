@@ -1,0 +1,19 @@
+<?php /** @var $this VinaiKopp_ProductCategories_Block_CategoryList */ ?>
+<div id="parent-categories" class="product-collateral">
+    <?php $_categories = $this->getCategories() ?>
+    <?php if ($_categories->count()): ?>
+    <div class="title">
+        <strong><?php echo $this->__('This product can be found within the following categories:') ?></strong>
+    </div>
+    <ul class="parent-categories">
+        <?php foreach ($_categories as $_category): ?>
+            <li>
+                <?php foreach ($this->getParentCategoriesForCategory($_category) as $parent): ?>
+                    <a href="<?php echo $parent->getUrl() ?>"><?php echo $this->escapeHtml($parent->getName()) ?></a>
+                    <?php if (! $parent->getIsLast()) echo '&rArr;' ?>
+                <?php endforeach ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+    <?php endif; ?>
+</div>

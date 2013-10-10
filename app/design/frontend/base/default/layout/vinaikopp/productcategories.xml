@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config>
+    <catalog_product_view>
+        <block type="vinaikopp_productCategories/categoryList" name="product.categories.list" parent="content"/>
+    </catalog_product_view>
+</config>
