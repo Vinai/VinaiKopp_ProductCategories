@@ -93,8 +93,16 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $this->setCategories($categories);
             
             usort($categories, array($this, '_sortByParentBaseCategory'));
+            
+            // Set first and last identifiers
+            $cat = end($categories);
+            $cat->setIsLast(true);
+            $cat = reset($categories);
+            $cat->setIsFirst(true);
+            
             // Set the sorted categories for use by template
             $this->setCategories($categories);
+            $cat->setIsFirst(true);
         }
         return $categories;
     }
@@ -143,6 +151,9 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $parents = array();
             foreach ($category->getPathIds() as $parentId) {
                 if ($parent = $this->getAllParentCategories()->getItemById($parentId)) {
+                    if (! $parents) {
+                        $parent->setIsFirst(true);
+                    }
                     $parents[] = $parent;
                 }
             }
