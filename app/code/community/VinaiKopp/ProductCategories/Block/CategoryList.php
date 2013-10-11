@@ -4,6 +4,13 @@
 class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_Product_Abstract
 {
     /**
+     * List of parent categories for each direct product category
+     * 
+     * @var array
+     */
+    protected $_parents = array();
+    
+    /**
      * Set a default template
      */
     protected function _construct()
@@ -15,7 +22,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
     /**
      * Return all categories associated with product
      * 
-     * @return Mage_Catalog_Model_Resource_Category_Collection
+     * @return Mage_Catalog_Model_Category[]
      */
     public function getCategories()
     {
@@ -24,7 +31,14 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $categories = $this->getProduct()->getCategoryCollection()
                 ->addIsActiveFilter()
                 ->addNameToResult()
-                ->addUrlRewriteToResult();
+                ->addUrlRewriteToResult()->getItems();
+
+            // Set to avoid recursion because getAllParentCategories() is called
+            // sorting, which in turn calls getCategories() again.
+            $this->setCategories($categories);
+            
+            usort($categories, array($this, '_sortByParentBaseCategory'));
+            // Set the sorted categories for use by template
             $this->setCategories($categories);
         }
         return $categories;
@@ -70,15 +84,43 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
      */
     public function getParentCategoriesForCategory(Mage_Catalog_Model_Category $category)
     {
-        $parents = array();
-        foreach ($category->getPathIds() as $parentId) {
-            if ($parent = $this->getAllParentCategories()->getItemById($parentId)) {
-                if (empty($parents)) {
-                    $parent->setIsLast(true);
+        if (! isset($this->_parents[$category->getId()])) {
+            $parents = array();
+            foreach ($category->getPathIds() as $parentId) {
+                if ($parent = $this->getAllParentCategories()->getItemById($parentId)) {
+                    $parents[] = $parent;
                 }
-                $parents[] = $parent;
+            }
+            if (isset($parent)) {
+                $parent->setIsLast(true);
+            }
+            $this->_parents[$category->getId()] = $parents;
+        }
+        return $this->_parents[$category->getId()];
+    }
+
+
+    /**
+     * Called via usort() to sort an array of categories by name
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     * @see VinaiKopp_ProductCategories_Block_CategoryList::getCategories()
+     */
+    protected function _sortByParentBaseCategory($a, $b)
+    {
+        $aParents = $this->getParentCategoriesForCategory($a);
+        $bParents = $this->getParentCategoriesForCategory($b);
+        
+        for ($lvl = 0, $maxLvl = count($aParents); $lvl < $maxLvl; $lvl++) {
+            if (! isset($bParents[$lvl])) {
+                return 1; // a is larger b if there is no b
+            }
+            if ($res = strcmp($aParents[$lvl]->getName(), $bParents[$lvl]->getName())) {
+                return $res;
             }
         }
-        return array_reverse($parents);
+        return 0;
     }
 }
