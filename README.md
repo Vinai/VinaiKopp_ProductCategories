@@ -31,6 +31,10 @@ If you don't want to display the block automatically at the bottom of all produc
 
 **Note:** This only works on product pages.
 
+The template the block uses by default is  
+```app/design/frontend/base/default/template/vinaikopp/productcategories/list.phtml```  
+Copy it to your own theme to customize it. You can also assign a different template to the block and it will be used.
+
 The reason for this module? I was asked for it nicely. I was told that having this supposedly is good for SEO purposes.
 
 Compatibility
