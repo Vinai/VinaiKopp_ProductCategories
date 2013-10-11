@@ -31,6 +31,8 @@ If you don't want to display the block automatically at the bottom of all produc
 
 **Note:** This only works on product pages.
 
+The reason for this module? I was asked for it nicely. I was told that having this supposedly is good for SEO purposes.
+
 Compatibility
 -------------
 - Magento >= 1.4
