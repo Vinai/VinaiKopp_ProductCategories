@@ -35,7 +35,7 @@ The reason for this module? I was asked for it nicely. I was told that having th
 
 Compatibility
 -------------
-- Magento >= 1.4
+- Magento >= 1.4 (since then getCacheKeyInfo() exists in Mage_Core_Block_Abstract)
 
 Installation Instructions
 -------------------------
