@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <vinaikopp_productcategories translate="label" module="vinaikopp_productCategories">
+                                        <title>Product Category List</title>
+                                        <sort_order>555</sort_order>
+                                    </vinaikopp_productcategories>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
