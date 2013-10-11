@@ -1,4 +1,5 @@
 <?php /** @var $this VinaiKopp_ProductCategories_Block_CategoryList */ ?>
+<?php $_sep = $this->getSeparator() ?>
 <div id="parent-categories" class="product-collateral">
     <?php $_categories = $this->getCategories() ?>
     <?php if ($_categories): ?>
@@ -10,7 +11,7 @@
             <li>
                 <?php foreach ($this->getParentCategoriesForCategory($_category) as $parent): ?>
                     <a href="<?php echo $parent->getUrl() ?>"><?php echo $this->escapeHtml($parent->getName()) ?></a>
-                    <?php if (! $parent->getIsLast()) echo '&rArr;' ?>
+                    <?php if (! $parent->getIsLast()) echo $_sep ?>
                 <?php endforeach ?>
             </li>
         <?php endforeach ?>

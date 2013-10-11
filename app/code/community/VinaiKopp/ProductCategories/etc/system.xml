@@ -28,10 +28,21 @@
                             <comment>If you select No, your theme developer can still add the block to your product template manually.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </add_to_content>
+                        <category_separator translate="label comment" module="vinaikopp_productCategories">
+                            <label>Category Separator</label>
+                            <comment><![CDATA[The code <strong>&amp;rArr;</strong> will show the character &rArr;]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>vinaikopp_productCategories/system_config_backend_cache</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </category_separator>
                     </fields>
                 </general>
             </groups>

@@ -68,6 +68,7 @@
         <vinaikopp_productcategories>
             <general>
                 <add_to_content>1</add_to_content>
+                <category_separator><![CDATA[&rArr;]]></category_separator>
             </general>
         </vinaikopp_productcategories>
     </default>

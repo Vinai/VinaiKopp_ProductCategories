@@ -3,6 +3,8 @@
 
 class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_Product_Abstract
 {
+    const CACHE_TAG = 'product_category_list';
+    
     /**
      * List of parent categories for each direct product category
      * 
@@ -37,6 +39,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
     public function getCacheTags()
     {
         $tags = parent::getCacheTags();
+        $tags[] = self::CACHE_TAG;
         $tags[] = Mage_Catalog_Model_Category::CACHE_TAG;
         $tags[] = Mage_Catalog_Model_Product::CACHE_TAG . '_' . $this->getProduct()->getId();
         return $tags;
@@ -157,5 +160,20 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             }
         }
         return 0;
+    }
+
+    /**
+     * Return the category name separator
+     * 
+     * @return string
+     */
+    public function getSeparator()
+    {
+        $separator = $this->_getData('separator');
+        if (is_null($separator)) {
+            $separator = Mage::getStoreConfig('vinaikopp_productcategories/general/category_separator');
+            $this->setData('separator', $separator);
+        }
+        return $separator;
     }
 }
