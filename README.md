@@ -3,7 +3,6 @@ List Product Categories
 Display a list of the categories associated with the a product on the product detail page on the frontend.  
 For each category the parent categories are displayed, too.
 
-
 Facts
 -----
 - version: check the [config.xml](https://github.com/Vinai/VinaiKopp_ProductCategories/blob/master/app/code/community/VinaiKopp/ProductCategories/etc/config.xml)
@@ -14,11 +13,17 @@ Facts
 Description
 -----------
 Display a list of the categories associated with the a product on the product detail page on the frontend.  
-For each category the parent categories are displayed, too.
+For each category the parent categories are displayed, too.  
+
+![Screenshot of default block template](https://raw.github.com/Vinai/VinaiKopp_ProductCategories/media/ProductCategoryList-screenshot-frontend.png)
+
+Once the blocks are generated, they are cached for better system performance.
 
 The automatic addition of the categories list to product pages can be turned off in the system configuration at  
 
     Vinai Kopp Extensions > Product Categories List > General
+
+![Configuration Screenshot](https://raw.github.com/Vinai/VinaiKopp_ProductCategories/media/ProductCategoryList-screenshot-backend.png)
 
 If you don't want to display the block automatically at the bottom of all product pages, disable the feature in the system configuration, and add the block manually to your product template at the place you want it to display using the code
 
