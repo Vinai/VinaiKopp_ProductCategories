@@ -11,7 +11,25 @@
                 <class>VinaiKopp_ProductCategories_Helper</class>
             </vinaikopp_productCategories>
         </helpers>
+        <models>
+            <vinaikopp_productCategories>
+                <class>VinaiKopp_ProductCategories_Model</class>
+            </vinaikopp_productCategories>
+        </models>
     </global>
+    <adminhtml>
+        <events>
+            <catalog_product_save_commit_after>
+                <observers>
+                    <vinaikopp_productCategories>
+                        <type>model</type>
+                        <class>vinaikopp_productCategories/observer</class>
+                        <method>catalogProductSaveCommitAfter</method>
+                    </vinaikopp_productCategories>
+                </observers>
+            </catalog_product_save_commit_after>
+        </events>
+    </adminhtml>
     <frontend>
         <layout>
             <updates>

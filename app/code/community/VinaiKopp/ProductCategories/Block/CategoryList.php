@@ -20,6 +20,41 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
     }
 
     /**
+     * No cache expiry (cache forever)
+     * 
+     * @return bool
+     */
+    public function getCacheLifetime()
+    {
+        return false;
+    }
+
+    /**
+     * Clear cache when any category or the associated product is edited
+     * 
+     * @return array
+     */
+    public function getCacheTags()
+    {
+        $tags = parent::getCacheTags();
+        $tags[] = Mage_Catalog_Model_Category::CACHE_TAG;
+        $tags[] = Mage_Catalog_Model_Product::CACHE_TAG . '_' . $this->getProduct()->getId();
+        return $tags;
+    }
+
+    /**
+     * Cache this block for each product separately
+     * 
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        $info = parent::getCacheKeyInfo();
+        $info[] = 'PRODUCT_' . $this->getProduct()->getId();
+        return $info;
+    }
+
+    /**
      * Return all categories associated with product
      * 
      * @return Mage_Catalog_Model_Category[]
