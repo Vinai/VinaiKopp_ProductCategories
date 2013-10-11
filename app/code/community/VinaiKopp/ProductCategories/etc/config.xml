@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <config>
+    <modules>
+        <VinaiKopp_ProductCategories>
+            <version>0.1.0</version>
+        </VinaiKopp_ProductCategories>
+    </modules>
     <global>
         <blocks>
             <vinaikopp_productCategories>
