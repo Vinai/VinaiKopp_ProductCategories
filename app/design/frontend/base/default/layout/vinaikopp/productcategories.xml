@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <config>
     <catalog_product_view>
-        <block type="vinaikopp_productCategories/categoryList" name="product.categories.list" parent="content"/>
+        <block type="vinaikopp_productCategories/categoryList" name="product.categories.list"/>
+        <action method="insert" ifconfig="vinaikopp_productcategories/general/add_to_content" block="content">
+            <child>product.categories.list</child>
+            <sibling>product.info</sibling>
+            <after>1</after>
+        </action>
     </catalog_product_view>
 </config>

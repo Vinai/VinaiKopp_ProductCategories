@@ -53,4 +53,22 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <VinaiKopp_ProductCategories>
+                    <files>
+                        <default>VinaiKopp_ProductCategories.csv</default>
+                    </files>
+                </VinaiKopp_ProductCategories>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <vinaikopp_productcategories>
+            <general>
+                <add_to_content>1</add_to_content>
+            </general>
+        </vinaikopp_productcategories>
+    </default>
 </config>
