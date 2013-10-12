@@ -5,10 +5,12 @@ For each category the parent categories are displayed, too.
 
 Facts
 -----
-- version: check the [config.xml](https://github.com/Vinai/VinaiKopp_ProductCategories/blob/master/app/code/community/VinaiKopp/ProductCategories/etc/config.xml)
-- extension key: - This extension is not on Magento Connect (github only) -
-- [extension on GitHub](https://github.com/Vinai/VinaiKopp_ProductCategories)
-- [direct download link](https://github.com/Vinai/VinaiKopp_ProductCategories/zipball/master)
+- Version: check the [config.xml](https://github.com/Vinai/VinaiKopp_ProductCategories/blob/master/app/code/community/VinaiKopp/ProductCategories/etc/config.xml)
+- Extension key: - This extension is not on Magento Connect (github only) -
+- [Extension on GitHub](https://github.com/Vinai/VinaiKopp_ProductCategories)
+- [Direct download link](https://github.com/Vinai/VinaiKopp_ProductCategories/zipball/master)
+- Includes de_DE locale
+- Includes CSS classes for easy styling
 
 Description
 -----------
