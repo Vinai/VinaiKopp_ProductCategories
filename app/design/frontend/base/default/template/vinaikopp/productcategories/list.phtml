@@ -28,11 +28,12 @@
     </div>
     <ul class="parent-categories">
         <?php foreach ($_categories as $_category): ?>
-            <li>
-                <?php foreach ($this->getParentCategoriesForCategory($_category) as $parent): ?>
-                    <a href="<?php echo $parent->getUrl() ?>"><?php echo $this->escapeHtml($parent->getName()) ?></a>
-                    <?php if (! $parent->getIsLast()) echo $_sep ?>
-                <?php endforeach ?>
+            <li class="<?php echo $this->getListCssClasses($_category) ?>">
+            <?php foreach ($this->getParentCategoriesForCategory($_category) as $_parent): ?>
+                <span class="<?php echo $this->getCatCssClasses($_parent) ?>">
+                    <a href="<?php echo $_parent->getUrl() ?>"><?php echo $this->escapeHtml($_parent->getName()) ?></a>
+                </span> <?php if (! $_parent->getIsHead()) echo $_sep ?>
+            <?php endforeach ?>
             </li>
         <?php endforeach ?>
     </ul>

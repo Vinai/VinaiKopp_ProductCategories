@@ -21,6 +21,21 @@
 class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_Product_Abstract
 {
     const CACHE_TAG = 'product_category_list';
+
+    /**
+     * The first of the product categories (for css class rendering)
+     * 
+     * @var Mage_Catalog_Model_Category
+     */
+    protected $_firstProductCat;
+
+
+    /**
+     * The last of the product categories (for css class rendering)
+     * 
+     * @var Mage_Catalog_Model_Category
+     */
+    protected $_lastProductCat;
     
     /**
      * List of parent categories for each direct product category
@@ -81,7 +96,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
      */
     public function getCategories()
     {
-        $categories = $this->getData('categories');
+        $categories = $this->_getData('categories');
         if (is_null($categories)) {
             $categories = $this->getProduct()->getCategoryCollection()
                 ->addIsActiveFilter()
@@ -94,27 +109,24 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             
             usort($categories, array($this, '_sortByParentBaseCategory'));
             
-            // Set first and last identifiers
-            $cat = end($categories);
-            $cat->setIsLast(true);
-            $cat = reset($categories);
-            $cat->setIsFirst(true);
+            // Set reference for css classes
+            $this->_lastProductCat  = end($categories);
+            $this->_firstProductCat = reset($categories);
             
-            // Set the sorted categories for use by template
+            // Set the sorted categories for use in template
             $this->setCategories($categories);
-            $cat->setIsFirst(true);
         }
         return $categories;
     }
 
     /**
-     * Return all categories associated with current product + parent categories
+     * Return categories associated with current product + parent categories
      * 
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
     public function getAllParentCategories()
     {
-        $allParentCategories = $this->getData('all_parent_categories');
+        $allParentCategories = $this->_getData('all_parent_categories');
         if (is_null($allParentCategories)) {
             $ids = $categories = array();
             foreach ($this->getCategories() as $category) {
@@ -151,14 +163,16 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $parents = array();
             foreach ($category->getPathIds() as $parentId) {
                 if ($parent = $this->getAllParentCategories()->getItemById($parentId)) {
+                    // Set flag for css class
                     if (! $parents) {
-                        $parent->setIsFirst(true);
+                        $parent->setIsBase(true);
                     }
                     $parents[] = $parent;
                 }
             }
-            if (isset($parent)) {
-                $parent->setIsLast(true);
+            // Set flag for css class and separator
+            if ($parent) {
+                $parent->setIsHead(true);
             }
             $this->_parents[$category->getId()] = $parents;
         }
@@ -203,5 +217,48 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $this->setData('separator', $separator);
         }
         return $separator;
+    }
+
+    /**
+     * Return css classes for the li tags
+     * 
+     * @param Mage_Catalog_Model_Category $cat
+     * @return string
+     */
+    public function getListCssClasses(Mage_Catalog_Model_Category $cat)
+    {
+        $classes = array();
+        if ($this->_firstProductCat) {
+            if ($this->_firstProductCat->getId() == $cat->getId()) {
+                $classes[] = 'first';
+            }
+        }
+        if ($this->_lastProductCat) {
+            if ($this->_lastProductCat->getId() == $cat->getId()) {
+                $classes[] = 'last';
+            }
+        }
+        return implode(' ', $classes);
+    }
+
+    /**
+     * Return css classes for the span tags surrounding the category names
+     * 
+     * @param Mage_Catalog_Model_Category $cat
+     * @return string
+     */
+    public function getCatCssClasses(Mage_Catalog_Model_Category $cat)
+    {
+        $classes = array();
+        if ($cat->getIsBase()) {
+            $classes[] = 'base';
+        }
+        if ($cat->getIsHead()) {
+            $classes[] = 'head';
+        }
+        //if (! $classes) { ;)
+        //    $classes[] = 'no-head-or-tails';
+        //}
+        return implode(' ', $classes);
     }
 }
