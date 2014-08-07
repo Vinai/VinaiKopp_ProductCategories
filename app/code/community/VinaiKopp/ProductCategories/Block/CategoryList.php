@@ -133,16 +133,18 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
                 /** @var Mage_Catalog_Model_Category $category */
                 $ids = array_merge($ids, $category->getParentIds());
             }
+            $alreadyLoadedIds = array_keys($this->getCategories());
+            $ids = array_diff(array_unique($ids, SORT_NUMERIC), $alreadyLoadedIds);
             
             /** @var Mage_Catalog_Model_Resource_Category_Collection $allParentCategories */
             $allParentCategories = Mage::getModel('catalog/category')
                 ->getCollection()
-                ->addIdFilter(array_unique($ids, SORT_NUMERIC))
+                ->addIdFilter($ids)
                 ->addIsActiveFilter()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
                 ->addFieldToFilter('level', array('gt' => 1));
-            
+
             foreach ($this->getCategories() as $category) {
                 $allParentCategories->addItem($category);
             }
