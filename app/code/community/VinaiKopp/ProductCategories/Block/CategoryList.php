@@ -102,6 +102,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
                 ->addIsActiveFilter()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()->getItems();
+            $categories = $this->_filterOutCategoriesThatAreAlsoParent($categories);
 
             // Set to avoid recursion because getAllParentCategories() is called
             // sorting, which in turn calls getCategories() again.
@@ -114,7 +115,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             $this->_firstProductCat = reset($categories);
             
             // Set the sorted categories for use in template
-            $this->setCategories($categories);
+            $this->setData('categories', $categories);
         }
         return $categories;
     }
@@ -148,7 +149,7 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
             foreach ($this->getCategories() as $category) {
                 $allParentCategories->addItem($category);
             }
-            $this->setAllParentCategories($allParentCategories);
+            $this->setData('all_parent_categories', $allParentCategories);
         }
         return $allParentCategories;
     }
@@ -162,22 +163,24 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
     public function getParentCategoriesForCategory(Mage_Catalog_Model_Category $category)
     {
         if (! isset($this->_parents[$category->getId()])) {
+            $parent = null;
             $parents = array();
             foreach ($category->getPathIds() as $parentId) {
                 if ($parent = $this->getAllParentCategories()->getItemById($parentId)) {
                     // Set flag for css class
-                    if (! $parents) {
+                    if (empty($parents)) {
                         $parent->setIsBase(true);
                     }
                     $parents[] = $parent;
                 }
             }
-            // Set flag for css class and separator
             if ($parent) {
                 $parent->setIsHead(true);
             }
             $this->_parents[$category->getId()] = $parents;
         }
+
+        // Set flag for css class and separator
         return $this->_parents[$category->getId()];
     }
 
@@ -262,5 +265,41 @@ class VinaiKopp_ProductCategories_Block_CategoryList extends Mage_Catalog_Block_
         //    $classes[] = 'no-head-or-tails';
         //}
         return implode(' ', $classes);
+    }
+
+    /**
+     * @param array $allCategories
+     * @return array
+     */
+    private function _filterOutCategoriesThatAreAlsoParent(array $allCategories)
+    {
+        $categories = array();
+        /** @var Mage_Catalog_Model_Category $category */
+        foreach ($allCategories as $categoryToCheck) {
+            if ($this->_noneOfTheOtherCategoriesHasThisCategoryInItsParentPath($allCategories, $categoryToCheck)) {
+                $categories[] = $categoryToCheck;
+            }
+        }
+        return $categories;
+    }
+
+    /**
+     * @param array $allCategories
+     * @param Mage_Catalog_Model_Category $categoryToCheck
+     * @return bool
+     */
+    private function _noneOfTheOtherCategoriesHasThisCategoryInItsParentPath(array $allCategories, Mage_Catalog_Model_Category $categoryToCheck)
+    {
+        /** @var Mage_Catalog_Model_Category $categoryToCompareAgainst */
+        foreach ($allCategories as $categoryToCompareAgainst) {
+            if ($categoryToCompareAgainst->getId() == $categoryToCheck->getId()) {
+                continue;
+            }
+            $parentIds = $categoryToCompareAgainst->getPathIds();
+            if (in_array($categoryToCheck->getId(), $parentIds)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
