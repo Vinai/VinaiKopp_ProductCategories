@@ -1,3 +1,7 @@
+# This Magento 1 extension is orphaned, unsupported and no longer maintained.
+
+If you use it, you are effectively adopting the code for your own project.
+
 List Product Categories
 =======================
 Display a list of the categories associated with the a product on the product detail page on the frontend.  
